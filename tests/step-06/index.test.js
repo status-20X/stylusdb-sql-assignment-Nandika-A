@@ -68,8 +68,8 @@ test('Parse SQL Query with Multiple WHERE Clauses', () => {
             "operator": "=",
             "value": "John",
         }],
-        joinCondition: null,
         joinTable: null,
+        joinCondition: null,
     });
 });
 
