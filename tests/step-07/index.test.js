@@ -58,6 +58,8 @@ test('Parse SQL Query with Multiple WHERE Clauses', () => {
     const parsed = parseQuery(query);
     expect(parsed).toEqual({
         fields: ['id', 'name'],
+        joinCondition: null,
+        joinTable: null,
         table: 'student',
         whereClauses: [{
             "field": "age",
@@ -67,9 +69,7 @@ test('Parse SQL Query with Multiple WHERE Clauses', () => {
             "field": "name",
             "operator": "=",
             "value": "John",
-        }],
-        joinCondition: null,
-        joinTable: null,
+        }]
     });
 });
 
