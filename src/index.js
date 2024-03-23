@@ -34,7 +34,14 @@ if (joinTable && joinCondition) {
 const filteredData = whereClauses.length > 0
     ? data.filter(row => whereClauses.every(clause => evaluateCondition(row, clause)))
     : data;
-    
+    filteredData.map(row => {
+        const selectedRow = {};
+        fields.forEach(field => {
+            // Assuming 'field' is just the column name without table prefix
+            selectedRow[field] = row[field];
+        });
+        return selectedRow;
+    })    
 }
 
 function evaluateCondition(row, clause) {
