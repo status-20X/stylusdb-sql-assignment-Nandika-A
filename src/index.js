@@ -1,14 +1,15 @@
-// src/index.js
-
 const parseQuery = require('./queryParser');
 const readCSV = require('./csvReader');
 
 async function executeSELECTQuery(query) {
+    // const { fields, table, whereClauses } = parseQuery(query);
+    // const data = await readCSV(`${table}.csv`);
+
     // src/index.js at executeSELECTQuery
 
 // Now we will have joinTable, joinCondition in the parsed query
 const { fields, table, whereClauses, joinTable, joinCondition } = parseQuery(query);
-let data = await readCSV(`${table}.csv`);
+data = await readCSV(`${table}.csv`);
 
 // Perform INNER JOIN if specified
 if (joinTable && joinCondition) {
@@ -30,20 +31,31 @@ if (joinTable && joinCondition) {
     });
 }
 
-// Apply WHERE clause filtering after JOIN (or on the original data if no join)
-const filteredData = whereClauses.length > 0
+    //7TH STEP
+    // Apply WHERE clause filtering
+    // const filteredData = whereClauses.length > 0
+    //     ? data.filter(row => whereClauses.every(clause => {
+    //         // You can expand this to handle different operators
+    //         return row[clause.field] === clause.value;
+    //     }))
+    //     : data;
+    //
+
+    const filteredData = whereClauses.length > 0
     ? data.filter(row => whereClauses.every(clause => evaluateCondition(row, clause)))
     : data;
-    filteredData.map(row => {
+
+    // Select the specified fields
+    return filteredData.map(row => {
         const selectedRow = {};
         fields.forEach(field => {
-            // Assuming 'field' is just the column name without table prefix
             selectedRow[field] = row[field];
         });
         return selectedRow;
-    })    
+    });
 }
 
+// src/index.js
 function evaluateCondition(row, clause) {
     const { field, operator, value } = clause;
     switch (operator) {
@@ -56,4 +68,5 @@ function evaluateCondition(row, clause) {
         default: throw new Error(`Unsupported operator: ${operator}`);
     }
 }
+
 module.exports = executeSELECTQuery;
