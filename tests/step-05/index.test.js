@@ -39,10 +39,10 @@ test('Parse SQL Query with WHERE Clause', () => {
         whereClauses : [{
             "field": "age",
             "operator": "=",
-            "value": "25",  
-            }],
-            joinTable: null,
-            joinCondition: null,  
+            "value": "25",
+            joinCondition: null,
+            joinTable: null,    
+            },],
     });
 });
 
